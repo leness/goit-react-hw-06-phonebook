@@ -2,7 +2,8 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import shortid from 'shortid';
 import styles from './ContactForm.module.css'
-import contactsActions from '../../redux/contacts/contacts-actions'
+import contactsActions from '../../redux/contacts/contacts-actions';
+
 
 
 class ContactForm extends Component{
@@ -30,9 +31,19 @@ class ContactForm extends Component{
   
     
     handleSubmit = e => {
-    e.preventDefault();
-        this.props.onSubmit(this.state)
-        this.reset();
+        const { name, number } = this.state;
+        const { contacts } = this.props;
+        e.preventDefault();
+        
+        if (contacts.find((item) => item.name.toLowerCase() === name.toLowerCase())) {
+            alert(`${name} is already in contacts.`);
+            return;
+        } 
+
+        this.props.onSubmit(name, number);
+            this.reset();
+        
+    
         }
 
     reset = () => {
@@ -70,11 +81,16 @@ class ContactForm extends Component{
     }
 }
 
+const mapStateToProps = (state) => ({
+     contacts: state.contact.contacts,
+//    console.log(state.contacts)
+})
+
 const mapDispatchToProps = dispatch => ({
     onSubmit: (name, number) => dispatch(contactsActions.addContacts(name, number))
 })
 
-export default connect(null, mapDispatchToProps)(ContactForm)
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm)
 
 
 
