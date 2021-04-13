@@ -37,13 +37,11 @@ class ContactForm extends Component{
         
         if (contacts.find((item) => item.name.toLowerCase() === name.toLowerCase())) {
             alert(`${name} is already in contacts.`);
-            return;
+            return {name: '', number: ''};
         } 
 
         this.props.onSubmit(name, number);
             this.reset();
-        
-    
         }
 
     reset = () => {
@@ -83,7 +81,6 @@ class ContactForm extends Component{
 
 const mapStateToProps = (state) => ({
      contacts: state.contact.contacts,
-//    console.log(state.contacts)
 })
 
 const mapDispatchToProps = dispatch => ({

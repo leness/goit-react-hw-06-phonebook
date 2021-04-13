@@ -29,6 +29,7 @@ ContactList.propTypes = {
 
 
 const getVisibleContacs = (allContacts, filter) => {
+  
     const normalizeSearch = filter.toLowerCase();
 
     return allContacts.filter(contact =>
